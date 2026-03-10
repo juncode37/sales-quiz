@@ -456,7 +456,8 @@
   });
 
   function getTgLink() {
-    const message = t("tg_message");
+    const message =
+      "Добрий день! Цікавить вакансія менеджера з роботи з клієнтами.";
     return `${CONFIG.TG_URL}?text=${encodeURIComponent(message)}`;
   }
 
