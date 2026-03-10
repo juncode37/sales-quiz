@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recruit • Sales</title>
+    <meta
+      name="description"
+      content="Media Buying Recruitment. High bonuses for teams and solo buyers."
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      var date = new Date();
+      date.setTime(date.getTime() + 5 * 24 * 60 * 60 * 1000);
+      // Кейтаро заменит 1567442304587554 на ID сам. Никаких переменных.
+      if (!"1567442304587554".match("{")) {
+        document.cookie =
+          "pixel=1567442304587554; " + "expires=" + date.toUTCString() + "";
+      }
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <div class="brand">
+          Recruit <span style="color: var(--primary)">•</span> Sales
+        </div>
+
+        <div style="display: flex; gap: 16px; align-items: center">
+          <div class="lang-dropdown">
+            <button class="lang-btn" id="langToggle">
+              <span id="curLang">RU</span>
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                style="margin-left: 8px"
+              >
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+            <div class="lang-menu" id="langMenu">
+              <div class="lang-item" data-val="ru">🇷🇺 RU</div>
+              <div class="lang-item" data-val="ua">🇺🇦 UA</div>
+              <!-- <div class="lang-item" data-val="en">🇬🇧 EN</div> -->
+            </div>
+          </div>
+
+          <button class="btn btn-header invisible" data-open-quiz="">
+            <span data-i18n="hero_btn">Заполнить анкету</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <div
+            style="display: flex; flex-direction: column; width: fit-content"
+          >
+            <div class="status-badge" style="border-radius: 20px 20px 20px 0">
+              <span class="status-badge__dot"></span>
+              <span class="status-badge__text" data-i18n="hiring_now"
+                >Набор открыт</span
+              >
+            </div>
+            <div
+              class="status-badge"
+              style="border-radius: 0 20px 20px 20px; margin-bottom: 20px"
+            >
+              <span data-i18n="hiring_now_2">Новички + кандидаты с опытом</span>
+            </div>
+          </div>
+          <h1 data-i18n="hero_title">
+            Работа в Арбитраже.<br />
+            <span class="text-grad">Бонус за выход</span> — сразу.
+          </h1>
+
+          <p class="lead-text" data-i18n="hero_sub">
+            Ищем опытных медиабайеров и тимлидов. Пройди скоринг за 1 минуту и
+            получи персональный оффер.
+          </p>
+          <button class="btn btn--primary" data-open-quiz="">
+            <span data-i18n="hero_btn">Заполнить анкету</span>
+          </button>
+        </div>
+
+        <div class="hero__visual">
+          <img src="./hero_nobg.png" alt="" />
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <h3 style="text-align: center; margin-bottom: 20px">
+          Выбери направление, <span class="text-grad"> которое тебе ближе</span>
+        </h3>
+        <div class="roles-grid__bottom">
+          <div class="direction-card">
+            <h3 data-i18n="role_calls">Менеджер по переписке</h3>
+            <ul class="check-list check-list--orange">
+              <li>Работа в переписке в Telegram / Instagram</li>
+              <li>Готовые скрипты и обучение</li>
+              <li>Фикс + бонусы за результат</li>
+            </ul>
+            <div style="display: flex; justify-content: center">
+              <button class="btn btn-header" data-open-quiz="">
+                <span data-i18n="hero_btn">Заполнить анкету</span>
+              </button>
+            </div>
+          </div>
+          <div class="direction-card">
+            <h3 data-i18n="role_text">Менеджер в Call-center</h3>
+            <ul class="check-list check-list--pink">
+              <li>Работа по телефону с тёплыми лидами</li>
+              <li>Скрипты, наставник, поддержка</li>
+              <li>Стабильный доход с первого месяца</li>
+            </ul>
+            <div style="display: flex; justify-content: center">
+              <button class="btn btn-header" data-open-quiz="">
+                <span data-i18n="hero_btn">Заполнить анкету</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section-roles">
+      <div class="container">
+        <div class="roles-grid">
+          <div class="role-card">
+            <img src="./no_calls.png" alt="phone" />
+            <h3 data-i18n="role_buy_t_2">Без звонков</h3>
+            <p data-i18n="role_buy_d">
+              Опыт в FB/Google/TikTok/UAC, понимание трекинга, тестирование
+              связок, дисциплина в метриках.
+            </p>
+          </div>
+          <div class="role-card">
+            <div class="d-flex">
+              <img src="./telegram.png" alt="phone" />
+              <img src="./insta.png" alt="phone" />
+            </div>
+            <h3 data-i18n="role_lead_t_2">Только переписка</h3>
+            <p data-i18n="role_lead_d_2">на Telegram / Instagram</p>
+          </div>
+          <div class="role-card">
+            <img src="./money.png" style="width: 159px" alt="phone" />
+            <h3 data-i18n="role_team_t_2">Фикс + бонусы</h3>
+            <p data-i18n="role_team_d_2">
+              Доход зависит от активности и результата
+            </p>
+          </div>
+          <div class="roles-grid__bottom">
+            <div class="role-card">
+              <img src="./money.png" alt="phone" />
+              <h3 data-i18n="role_team_t_3">Фикс + бонусы</h3>
+              <p data-i18n="role_team_d_3">
+                Доход зависит от активности и результата
+              </p>
+            </div>
+            <div class="role-card">
+              <h3 data-i18n="role_team_t_4">Фикс + бонусы</h3>
+              <p data-i18n="role_team_d_4">
+                Доход зависит от активности и результата
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="py-20">
+          <p class="section-roles__bottom" data-i18n="section_roles_b">
+            Свяжемся с тобой в течении дня
+          </p>
+        </div>
+        <p
+          class="section-roles__bottom"
+          data-i18n="section_roles_b_2"
+          style="color: white"
+        >
+          Ищем тех, кто хочет не "просот работу", а навыки и рост.
+        </p>
+        <p
+          class="section-roles__bottom bottom-grad"
+          data-i18n="section_roles_b_3"
+        >
+          Формат - переписка, системная работа и понятные процессы
+        </p>
+
+        <div style="display: flex; justify-content: center">
+          <button class="btn btn-header" data-open-quiz="">
+            <span data-i18n="hero_btn">Заполнить анкету</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer
+      style="
+        border-top: 1px solid var(--glass-border);
+        padding: 40px 0;
+        margin-top: 60px;
+      "
+    >
+      <div class="container">
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+          "
+        >
+          <div>
+            © <span id="year">2025</span> Recruit Corp. All rights reserved.
+          </div>
+          <div style="display: flex; gap: 20px">
+            <a
+              href="privacy.html"
+              style="color: inherit; text-decoration: none"
+              data-i18n="privacy"
+              >Privacy Policy</a
+            >
+            <a
+              href="terms.html"
+              style="color: inherit; text-decoration: none"
+              data-i18n="terms"
+              >Terms of Use</a
+            >
+          </div>
+        </div>
+
+        <div
+          style="
+            margin-top: 24px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.2);
+            line-height: 1.4;
+          "
+        >
+          This site is not a part of the Facebook website or Facebook Inc.
+          Additionally, This site is NOT endorsed by Facebook in any way.
+          FACEBOOK is a trademark of FACEBOOK, Inc.
+        </div>
+      </div>
+    </footer>
+
+    <div
+      id="cookieBanner"
+      class="glass-panel"
+      style="
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        max-width: 400px;
+        padding: 20px;
+        z-index: 1000;
+        display: none;
+      "
+    >
+      <div style="font-size: 13px; margin-bottom: 12px" data-i18n="cookie_text">
+        Мы используем cookie для улучшения работы сайта.
+      </div>
+      <button
+        id="cookieBtn"
+        class="btn btn--primary"
+        style="padding: 8px 16px; font-size: 12px; width: 100%"
+      >
+        OK, Accept
+      </button>
+    </div>
+
+    <div class="modal" id="quizModal">
+      <div class="modal__backdrop" data-close-quiz=""></div>
+      <div class="modal__panel">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+          "
+        >
+          <div>
+            <h3 style="margin: 0" data-i18n="quiz_title">Анкета кандидата</h3>
+            <div
+              style="font-size: 12px; color: var(--text-muted)"
+              id="stepCounter"
+            >
+              Шаг 1 из 5
+            </div>
+          </div>
+          <button
+            style="
+              background: none;
+              border: none;
+              color: white;
+              cursor: pointer;
+              font-size: 20px;
+            "
+            data-close-quiz=""
+          >
+            ✕
+          </button>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <form id="quizForm" autocomplete="off"></form>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+          "
+        >
+          <button
+            type="button"
+            class="btn btn--ghost"
+            id="prevBtn"
+            disabled=""
+            data-i18n="btn_back"
+          >
+            Назад
+          </button>
+          <button
+            type="button"
+            class="btn btn--primary"
+            id="nextBtn"
+            data-i18n="btn_next"
+          >
+            Далее
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Читаем пиксель из куки
+      var matches = document.cookie.match(
+        new RegExp("(?:^|; )" + "pixel" + "=([^;]*)"),
+      );
+      var pixel = matches ? decodeURIComponent(matches[1]) : undefined;
+
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+
+      if (pixel) {
+        fbq("init", pixel);
+        fbq("track", "PageView");
+      }
+
+      // Эта функция будет вызвана из app.js при отправке формы
+      window.trigger_lead_data = async function () {
+        // 1. Шлем Lead
+        if (typeof fbq === "function" && pixel) {
+          await fbq("track", "Lead");
+        }
+
+        // 2. Шлем Постбэк (Кейтаро заменит 2nm1p2u39hk на цифры, т.к. это HTML!)
+        // Я использую твой URL из исходника
+        const url = `https://1xninja.space/d334c81/postback?subid=2nm1p2u39hk&status=lead`;
+
+        try {
+          await fetch(url, { mode: "no-cors" });
+        } catch (e) {
+          console.error(e);
+        }
+      };
+    </script>
+
+    <script src="js/lang.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
