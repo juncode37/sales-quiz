@@ -2,9 +2,12 @@
 (() => {
   // === CONFIG ===
   const CONFIG = {
-    WEBHOOK_URL:
-      "https://script.google.com/macros/s/AKfycbyAw6uf4PRUtBDnqF9cIIxDu1_JSR7SrbXBpjfZ-4Q6XuB5R6hVeh2bBUHxorYlr_3S/exec",
-    REDIRECT_URL: "thanks.html",
+    // WEBHOOK_URL:
+    //   "https://script.google.com/macros/s/AKfycbyAw6uf4PRUtBDnqF9cIIxDu1_JSR7SrbXBpjfZ-4Q6XuB5R6hVeh2bBUHxorYlr_3S/exec",
+    // REDIRECT_URL: "thanks.html",
+    TG_URL: "https://t.me/ksunaa_s",
+    TG_BOT_TOKEN: "8650854676:AAEs5KPPhDXyZUNegRAfILeYd7BsLajU05A",
+    TG_CHAT_ID: "-1003775262653",
   };
 
   const t = (key) => (window.I18N && window.I18N.t ? window.I18N.t(key) : key);
@@ -33,7 +36,6 @@
       required: true,
       options: [
         { value: "kyiv", labelKey: "q_city_kyiv" },
-        { value: "lviv", labelKey: "q_city_lviv" },
         { value: "ivano-frankivsk", labelKey: "q_city_if" },
         { value: "other", labelKey: "q_city_oth" },
       ],
@@ -95,6 +97,13 @@
       type: "text",
       required: true,
       placeholderKey: "q_name_ph",
+    },
+    {
+      id: "contact_phone",
+      titleKey: "q_phone_t",
+      type: "tel",
+      required: true,
+      placeholderKey: "q_phone_ph",
     },
     {
       id: "contact_tg",
@@ -199,17 +208,52 @@
         answers[step.id] = e.target.value;
       });
       wrapper.appendChild(select);
-    } else if (step.type === "text") {
+    } else if (step.type === "text" || step.type === "tel") {
       const input = document.createElement("input");
-      input.type = "text";
+      input.type = step.type === "tel" ? "tel" : "text";
       input.className = "glass-panel";
       input.style.width = "100%";
       input.style.padding = "16px";
       if (step.placeholderKey) input.placeholder = t(step.placeholderKey);
       input.value = answers[step.id] || "";
-      input.addEventListener("input", (e) => {
-        answers[step.id] = e.target.value;
-      });
+      if (step.type === "tel") {
+        input.value = answers[step.id] || "+380";
+        input.addEventListener("input", (e) => {
+          let val = e.target.value.replace(/[^\d+]/g, "");
+          if (!val.startsWith("+380")) val = "+380";
+
+          const digits = val.slice(4);
+          let formatted = "+380";
+          if (digits.length > 0) formatted += " (" + digits.slice(0, 2);
+          if (digits.length >= 2) formatted += ") " + digits.slice(2, 5);
+          if (digits.length >= 5) formatted += "-" + digits.slice(5, 7);
+          if (digits.length >= 7) formatted += "-" + digits.slice(7, 9);
+          e.target.value = formatted;
+          answers[step.id] = formatted;
+        });
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace") {
+            e.preventDefault();
+            const digits = input.value.replace(/[^\d]/g, "").slice(3); // убираем 380
+            const newDigits = digits.slice(0, -1); 
+
+            let formatted = "+380";
+            if (newDigits.length > 0) formatted += " (" + newDigits.slice(0, 2);
+            if (newDigits.length >= 2)
+              formatted += ") " + newDigits.slice(2, 5);
+            if (newDigits.length >= 5) formatted += "-" + newDigits.slice(5, 7);
+            if (newDigits.length >= 7) formatted += "-" + newDigits.slice(7, 9);
+
+            input.value = formatted;
+            answers[step.id] = formatted;
+          }
+        });
+      } else {
+        input.addEventListener("input", (e) => {
+          answers[step.id] = e.target.value;
+        });
+      }
+
       wrapper.appendChild(input);
     }
 
@@ -247,8 +291,47 @@
       if (val.length < 2) isValid = false;
       if (isValid && !val.startsWith("@")) answers[step.id] = "@" + val;
     }
+    if (isValid && step.id === "contact_phone") {
+      const digits = val.replace(/[^\d]/g, "");
+      if (digits.length < 12) isValid = false;
+
+      const operatorCode = digits.slice(3, 5);
+      const validCodes = [
+        "39",
+        "50",
+        "63",
+        "66",
+        "67",
+        "68", // Kyivstar
+        "73",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99", // Vodafone
+        "31",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49", // lifecell
+        "89",
+        "90", // інші
+      ];
+      if (isValid && !validCodes.includes(operatorCode)) isValid = false;
+    }
     if (!isValid) {
-      errEl.innerText = step.id === "contact_tg" ? t("err_tg") : t("err_fill");
+      errEl.innerText =
+        step.id === "contact_tg"
+          ? t("err_tg")
+          : step.id === "contact_phone"
+            ? t("err_phone")
+            : t("err_fill");
       errEl.style.display = "block";
       return;
     } else {
@@ -274,7 +357,7 @@
     nextBtn.disabled = true;
     nextBtn.innerText = "Wait...";
 
-    const { score, grade } = scoreLead(answers);
+    // const { score, grade } = scoreLead(answers);
 
     // Данные для Google (тут subid берется из URL, если есть, это для таблицы)
     const payload = {
@@ -282,8 +365,8 @@
       lead_id: Date.now().toString(36),
       pixel: getParam("pixel"),
       subid: getParam("subid"),
-      score: score,
-      grade: grade,
+      // score: score,
+      // grade: grade,
       lang: (window.I18N && window.I18N.current) || "ru",
     };
 
@@ -292,12 +375,43 @@
     } catch (e) {}
 
     // 1. Отправляем в Google (фоном)
-    const googleReq = fetch(CONFIG.WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    }).catch((err) => console.error(err));
+    // const googleReq = fetch(CONFIG.WEBHOOK_URL, {
+    //   method: "POST",
+    //   mode: "no-cors",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(payload),
+    // }).catch((err) => console.error(err));
+
+    // 1. Отправляем в Telegram
+    const lang = (window.I18N && window.I18N.current) || "ru";
+    const tgText = `
+🆕 <b>Новая заявка</b>
+
+👤 Имя: ${payload.contact_name}
+📞 Телефон: ${payload.contact_phone}
+📱 Telegram: ${payload.contact_tg}
+🎂 Возраст: ${payload.age}
+🏙 Город: ${payload.city}
+💼 Опыт: ${payload.experience}
+💬 Уверенность: ${payload.confidence}
+📲 Платформы: ${payload.platform}
+🎯 Мотивация: ${payload.motivation}
+🌐 Язык: ${lang}
+🕐 ${new Date().toLocaleString("ru-RU")}
+`;
+
+    const tgReq = fetch(
+      `https://api.telegram.org/bot${CONFIG.TG_BOT_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: CONFIG.TG_CHAT_ID,
+          text: tgText,
+          parse_mode: "HTML",
+        }),
+      },
+    ).catch((err) => console.error(err));
 
     // 2. ОТСТУК В КЕЙТАРО
     // Вызываем функцию, которая лежит в HTML
@@ -312,9 +426,13 @@
 
     // 3. Ждем Гугл и редиректим
     try {
-      await googleReq;
-    } catch (e) {}
-    window.location.href = CONFIG.REDIRECT_URL;
+      await tgReq;
+      document.getElementById("quizModal").classList.remove("is-open");
+      showResult(true);
+    } catch (e) {
+      document.getElementById("quizModal").classList.remove("is-open");
+      showResult(false);
+    }
   }
 
   nextBtn.addEventListener("click", goNext);
@@ -336,4 +454,31 @@
       setTimeout(renderStep, 50);
     });
   });
+
+  function getTgLink() {
+    const message = t("tg_message");
+    return `${CONFIG.TG_URL}?text=${encodeURIComponent(message)}`;
+  }
+
+  function updateTgLinks() {
+    document.querySelectorAll(".tg-link").forEach((el) => {
+      el.href = getTgLink();
+    });
+  }
+  document.addEventListener("DOMContentLoaded", updateTgLinks);
+  function showResult(success) {
+    const modal = document.getElementById("resultModal");
+    document.getElementById("resultIcon").innerText = success ? "✅" : "❌";
+    document.getElementById("resultTitle").innerText = success
+      ? t("result_ok_t")
+      : t("result_err_t");
+    document.getElementById("resultText").innerText = success
+      ? t("result_ok_d")
+      : t("result_err_d");
+    modal.classList.add("is-open");
+
+    document.querySelectorAll("[data-close-result]").forEach((el) => {
+      el.addEventListener("click", () => modal.classList.remove("is-open"));
+    });
+  }
 })();

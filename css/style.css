@@ -251,8 +251,9 @@ h3 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 28px;
+  padding: 14px 16px;
   border-radius: 99px;
+  height: 40px;
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
@@ -345,12 +346,12 @@ h3 {
 }
 
 .lang-btn {
-  min-width: 90px;
-  height: 44px;
+  min-width: 30px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 16px;
+  padding: 8px;
   background: rgba(124, 58, 237, 0.1);
   border: 1px solid rgba(168, 85, 247, 0.3);
   color: white;
@@ -410,7 +411,6 @@ h3 {
   position: relative;
 }
 
-/* Свечение за героем */
 .hero::before {
   content: "";
   position: absolute;
@@ -639,10 +639,11 @@ h1 {
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(5px);
+  padding: 20px;
 }
 .modal__panel {
   position: relative;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   background: #0e0e1a;
   border: 1px solid rgba(120, 80, 220, 0.3);
@@ -754,6 +755,7 @@ h1 {
 
 /* --- FIX INPUTS & SELECTS --- */
 input[type="text"],
+input[type="tel"],
 select {
   width: 100%;
   padding: 16px;
@@ -771,6 +773,7 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="tel"]:focus,
 select:focus {
   border-color: var(--primary-light) !important;
   background: rgba(124, 58, 237, 0.12) !important;
@@ -852,10 +855,24 @@ select {
 
 .hero__visual img {
   width: 100%;
+  -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+}
+
+.action_btns {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: auto;
+  margin-bottom: 20px;
+  padding: 0 20px;
 }
 
 /* Responsive */
 @media (max-width: 900px) {
+  .hero {
+    padding-top: 80px;
+  }
   .hero__grid {
     grid-template-columns: 1fr;
     gap: 40px;
@@ -886,6 +903,9 @@ select {
     }
     .hero__visual {
       width: 100%;
+    }
+    .action_btns {
+      flex-direction: column;
     }
   }
 }
