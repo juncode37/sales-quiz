@@ -495,8 +495,12 @@ window.I18N = (() => {
   setLang(currentLang);
   document.addEventListener("DOMContentLoaded", initDropdown);
 
-  return {
+  const i18n = {
     current: currentLang,
     t: t,
   };
+
+  if (typeof window.onI18NReady === "function") window.onI18NReady();
+
+  return i18n;
 })();

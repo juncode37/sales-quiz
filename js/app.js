@@ -235,7 +235,7 @@
           if (e.key === "Backspace") {
             e.preventDefault();
             const digits = input.value.replace(/[^\d]/g, "").slice(3); // убираем 380
-            const newDigits = digits.slice(0, -1); 
+            const newDigits = digits.slice(0, -1);
 
             let formatted = "+380";
             if (newDigits.length > 0) formatted += " (" + newDigits.slice(0, 2);
@@ -465,7 +465,7 @@
       el.href = getTgLink();
     });
   }
-  document.addEventListener("DOMContentLoaded", updateTgLinks);
+  updateTgLinks();
   function showResult(success) {
     const modal = document.getElementById("resultModal");
     document.getElementById("resultIcon").innerText = success ? "✅" : "❌";
